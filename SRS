@@ -1,0 +1,30 @@
+1. SRS (Software Requirements Specification)
+Scop
+Aplicație web/simplă backend+frontend pentru managementul ticketelor IT, permițând utilizatorilor să creeze ticket, tehnicienilor să le închidă și sistemului să trimită notificări email la evenimente relevante.
+Domeniu de aplicare
+User roles: Utilizator (end-user) și Tehnician (admin/agent).
+Operațiuni principale: creare ticket, vizualizare ticket, actualizare status, închidere ticket, notificări email.
+Definiții și acronime
+Ticket — o înregistrare ce conține: id, titlu, descriere, categorie, prioritate, status, creator, asignee (opțional), comentarii, timestamp.
+Status-uri tipice: New → In Progress → Resolved → Closed.
+Cerințe funcționale
+FR1 — Creare ticket: Utilizator autentic poate crea un ticket completând: titlu, descriere, categorie, prioritate; ticket primește id unic și status New.
+FR2 — Vizualizare listă ticket-uri: Utilizator vede propriile ticket-uri; tehnician vede toate ticket-urile (sau filtrate pe echipă).
+FR3 — Actualizare ticket: Tehnician sau creator poate adăuga comentarii și poate schimba statusul ticket-ului.
+FR4 — Închidere ticket: Tehnician (sau utilizator, după procedură) marchează ticket ca Closed după Resolved.
+FR5 — Audit trail: Istoric evenimente: cine, când, ce schimbare.
+Cerințe non-funcționale
+NFR1 — Notificări email: Sistemul trimite email la (a) creare ticket (către creator și echipa de suport), (b) schimbare status (către creator + asignee), (c) închidere ticket.
+Email-urile vor conține: id ticket, titlu, status nou, link către ticket.
+NFR2 — Securitate: Autentificare (JWT / sessions), autorizare pe roluri; input validation pentru prevenirea XSS/SQL injection.
+NFR3 — Disponibilitate: Target: 99% uptime pentru serviciul de bază.
+NFR4 — Performanță: Răspuns API < 500 ms pentru operațiuni uzuale sub încărcare normală.
+NFR5 — Scalabilitate & Extensibilitate: Arhitectură modulară (API REST/GraphQL + frontend), posibilitate de adăugare ulterioară a integrării cu Slack/Microsoft Teams.
+Constrângeri
+Transport email: folosirea unui provider SMTP (ex: SendGrid, Mailgun) — detaliile pot fi parametrizate.
+Bază de date: relațională (Postgres) sau NoSQL (MongoDB) — recomandare: Postgres pentru integritate relațională.
+Cazuri de utilizare
+CreateTicket (user)
+UpdateTicket (technician/user)
+CloseTicket (technician)
+NotifyOnEvent (system)
